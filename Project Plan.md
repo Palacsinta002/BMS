@@ -1,17 +1,29 @@
-# Website
-## Main functions
+# Base ideas
 
-- Show account balance
-- Transaction
-- Account history
-- Balance chart
-- Latest transactions
-- Account settings
-- Documents (Account statement)
-- Change language
-# Pages
-- 
-## Future improvements
-
-- Investments
-- Virtual card
+- Web page - for clients
+	- Login with mobile app (scan QR code, sms verification)
+	- Check account balance
+	- Transactions
+		- Check previous transactions
+		- Create new transactions (send virtual money to another bank account)
+	- Balance chart (shows expenses and income)
+	- Account settings
+		- Check if clients wants email notifications
+		- Change less important personal data
+			- Important personal data should only be changed with a bank employee, such as name, address and maybe email address, phone number
+	- Print account statement or send it in email
+	- Change language
+- Desktop application - for bank employees
+	- Create bank accounts
+	- Register clients
+	- Change clients' personal data
+	- All of the above should create a digital contract which will be signed digitally with the mobile app
+	- Change language
+- Mobile application - for clients and bank employees
+	- For clients
+		- 2FA QR code sign in verification for website
+		- Login and access the bank account just like on the website
+		- Change language
+	- For bank employees
+		- Digitally sign documents (contracts, personal data change confirmation, etc.)
+		- Change language
