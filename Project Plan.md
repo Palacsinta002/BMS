@@ -1,18 +1,33 @@
 # Base ideas
 
 - Web page - for clients
+	- Landing page with offers for creating your own account
+	- Costumer support (with chatbot)
 	- Login with mobile app (scan QR code, sms verification)
 	- Check account balance
-	- Transactions
-		- Check previous transactions
-		- Create new transactions (send virtual money to another bank account)
 	- Balance chart (shows expenses and income)
+	- Separate page for previously generated documents like contracts or statements
+	- Get loans, calculate price and idk how loans work xd
+	- Transactions
+		- Check previous transactions (within an interval)
+		- Create new transactions (send virtual money to another bank account)
+			- Send to email address, phone number or bank account number
+		- Pay cheques
+		- Regular transactions (monthly, weekly)
+		- Transaction requests (create, get)
+			- Create or get a request so a client can require money from another
+		- Transaction status
+			- Show currently active transactions (complete, pending, requires signature)
 	- Account settings
+		- Suspend or delete account
+		- Change limit and phone number
 		- Check if clients wants email notifications
 		- Change less important personal data
 			- Important personal data should only be changed with a bank employee, such as name, address and maybe email address, phone number
 	- Print account statement or send it in email
+	- Online notifications with offers and maintenance
 	- Change language
+	- Change theme
 - Desktop application - for bank employees
 	- Create bank accounts
 	- Register clients
@@ -21,6 +36,7 @@
 	- Change language
 - Mobile application - for clients and bank employees
 	- For clients
+		- Requires login with given codes first, after then clients can log in with biometrics or PIN
 		- 2FA QR code sign in verification for website
 		- Login and access the bank account just like on the website
 		- Change language

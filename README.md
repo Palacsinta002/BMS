@@ -1,1 +1,1 @@
-# This is our Bank Management System
+# Bank Management System
