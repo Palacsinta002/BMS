@@ -7,7 +7,11 @@
 	- Check account balance
 	- Balance chart (shows expenses and income)
 	- Separate page for previously generated documents like contracts or statements
-	- Get loans, calculate price and idk how loans work xd
+	- Loans
+		- Get loans, idk how it works
+		- Balance can go into negative
+		- So if the account balance is 0, the client can still purchase until a limit is reached with a penalty price (limit can be set in settings)
+		- Upon account closure, the client is required to pay back the loan
 	- Transactions
 		- Check previous transactions (within an interval)
 		- Create new transactions (send virtual money to another bank account)
@@ -21,6 +25,7 @@
 	- Account settings
 		- Suspend or delete account
 		- Change limit and phone number
+		- Change loan limit
 		- Check if clients wants email notifications
 		- Change less important personal data
 			- Important personal data should only be changed with a bank employee, such as name, address and maybe email address, phone number
