@@ -35,6 +35,9 @@
 	- Change theme
 - Desktop application - for bank employees
 	- Create bank accounts
+		- Junior account (cheaper fees)
+		- Standard account
+		- Premium account (pay monthly for cheaper fees)
 	- Register clients
 	- Change clients' personal data
 	- All of the above should create a digital contract which will be signed digitally with the mobile app
@@ -65,12 +68,12 @@
 | ------------- | -------- | ------- | ----- | --------- | ------------- |
 | 00001234      | 2        | 1000    | 1000  | -1000     | True          |
 | 00005678      | 1        | 50000   | 1     | 0         | False         |
-| 00001291      | 3        | 500     | 20000 | -500      | False         |
+| 00001291      | 1        | 500     | 20000 | -500      | False         |
 
 #### Transactions
 
 | id  | status   | fromClientId | toClientId | amount | date        | time     |
 | --- | -------- | ------------ | ---------- | ------ | ----------- | -------- |
 | 1   | complete | 2            | 1          | 1000   | 2025.11.25. | 12:35:01 |
-| 2   | pending  | 3            | 2          | 5000   | 2025.10.25. | 12:35:01 |
-| 3   | signReq  | 1            | 3          | 7000   | 2024.11.24. | 12:35:01 |
+| 2   | pending  | 1            | 2          | 5000   | 2025.10.25. | 12:35:01 |
+| 3   | signReq  | 1            | 2          | 7000   | 2024.11.24. | 12:35:01 |
