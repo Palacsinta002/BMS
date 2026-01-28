@@ -52,28 +52,110 @@
 		- Digitally sign documents (contracts, personal data change confirmation, etc.)
 		- Change language
 
-# Database
+# Database 1: bank_core
 
+- Contains money, balances and financial relationships with minimal access
+- Only SELECT, INSERT, very limited UPDATE
+- No DELETE
+- Money transfer is in transactions, no credentials stored there
 #### Clients
 
-| id  | name     | email            | phone        | address            | signature |
-| --- | -------- | ---------------- | ------------ | ------------------ | --------- |
-| 1   | John Doe | johndoe@john.doe | +36301234567 | City Smth utca 15. | sign1.png |
-| 2   | Jane Doe | janedoe@jane.doe | +36709876543 | halo               | sign2.png |
+| id  | first_name | last_name | phone        | email            | address            | created_at |
+| --- | ---------- | --------- | ------------ | ---------------- | ------------------ | ---------- |
+| 1   | John       | Doe       | +36301234567 | johndoe@john.doe | City Smth utca 15. |            |
+| 2   | Jane       | Doe       | +36709876543 | janedoe@jane.doe | halo               |            |
 
 
-#### Account
+#### Accounts
 
-| accountNumber | clientId | balance | limit | loanLimit | notifications |
-| ------------- | -------- | ------- | ----- | --------- | ------------- |
-| 00001234      | 2        | 1000    | 1000  | -1000     | True          |
-| 00005678      | 1        | 50000   | 1     | 0         | False         |
-| 00001291      | 1        | 500     | 20000 | -500      | False         |
+| id  | client_id | iban | balance | overdraft_limit | status | created_at |
+| --- | --------- | ---- | ------- | --------------- | ------ | ---------- |
+| 1   | 2         |      | 1000    | 1000            |        |            |
+| 2   | 1         |      | 50000   | 1               |        |            |
+| 3   | 1         |      | 500     | 20000           |        |            |
 
 #### Transactions
 
-| id  | status   | fromClientId | toClientId | amount | date        | time     |
-| --- | -------- | ------------ | ---------- | ------ | ----------- | -------- |
-| 1   | complete | 2            | 1          | 1000   | 2025.11.25. | 12:35:01 |
-| 2   | pending  | 1            | 2          | 5000   | 2025.10.25. | 12:35:01 |
-| 3   | signReq  | 1            | 2          | 7000   | 2024.11.24. | 12:35:01 |
+| id  | from_account_id | to_account_id | amount | status   | created_at | description |
+| --- | --------------- | ------------- | ------ | -------- | ---------- | ----------- |
+| 1   | 2               | 1             | 1000   | complete |            |             |
+| 2   | 1               | 2             | 5000   | pending  |            |             |
+| 3   | 1               | 2             | 7000   | signReq  |            |             |
+
+#### Loans
+
+| id  | account_id | total_amount | remaining_amount | installment_amount | interest_rate | start_date | end_date | status |
+| --- | ---------- | ------------ | ---------------- | ------------------ | ------------- | ---------- | -------- | ------ |
+|     |            |              |                  |                    |               |            |          |        |
+
+#### LoanPayments
+
+| id  | loan_id | amount | payment_date | transaction_id |
+| --- | ------- | ------ | ------------ | -------------- |
+|     |         |        |              |                |
+
+# Database 2: bank_auth
+
+- No financial data
+- Strong hashing (bcrypt, argon2)
+
+#### Users
+
+| id  | username | password_hash | role | is_active | created_at |
+| --- | -------- | ------------- | ---- | --------- | ---------- |
+|     |          |               |      |           |            |
+
+#### UserSessions
+
+| id  | user_id | refresh_token_hash | expires_at | created_at |
+| --- | ------- | ------------------ | ---------- | ---------- |
+|     |         |                    |            |            |
+
+#### MFASecrets
+
+| id  | user_id | secret | enabled |
+| --- | ------- | ------ | ------- |
+|     |         |        |         |
+
+#### UserClientLink
+
+| user_id | client_id |
+| ------- | --------- |
+|         |           |
+
+# Database 3: bank_audit
+
+- INSERT only
+- No UPDATE or DELETE
+- Automatically store everything, this is the history of the bank
+
+#### AuditLogs
+
+| id  | user_id | action | entity | entity_id | timestamp | details |
+| --- | ------- | ------ | ------ | --------- | --------- | ------- |
+|     |         |        |        |           |           |         |
+
+#### LedgerEntries
+
+| id  | transaction_id | account_id | debit | credit | balance_after | created_at |
+| --- | -------------- | ---------- | ----- | ------ | ------------- | ---------- |
+|     |                |            |       |        |               |            |
+
+#### SecurityEvents
+
+| id  | event_type | user_id | ip_address | timestamp | metadata |
+| --- | ---------- | ------- | ---------- | --------- | -------- |
+|     |            |         |            |           |          |
+
+# Transfer example
+
+1. User clicks Trasfer
+2. Validate input in application
+3. bank_auth verify user and permissions
+4. Check balance, insert Transaction and update balance
+5. Insert AuditLog and LedgerEntries
+
+- Credentials isolated  
+- Financial data isolated  
+- Evidence immutable  
+- Least-privilege everywhere
