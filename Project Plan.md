@@ -123,7 +123,27 @@
 | ------- | --------- |
 |         |           |
 
-# Database 3: bank_audit
+# Database 3: bank_notifications
+
+- Separate database for notifications
+- This database is not that important, if something goes wrong its not necessary for running the bank
+- No authentication and financial data
+
+#### Notifications
+- type -> information, maintenence
+- target_role -> everyone, client, employee
+
+| id  | title | message | type | target_role | created_at | created_by |
+| --- | ----- | ------- | ---- | ----------- | ---------- | ---------- |
+|     |       |         |      |             |            |            |
+
+#### UserNotifications
+
+| id  | user_id | notification_id | is_read | read_at | delivered_at |
+| --- | ------- | --------------- | ------- | ------- | ------------ |
+|     |         |                 |         |         |              |
+
+# Database 4: bank_audit
 
 - INSERT only
 - No UPDATE or DELETE
