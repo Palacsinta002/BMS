@@ -1,0 +1,4 @@
+0 : !Missing Data;
+1 : !email already exists;
+2 : !wrong username / password;
+3 : !no such user exists;
