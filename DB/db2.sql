@@ -3,19 +3,19 @@
 BEGIN;
 
 
-CREATE TABLE IF NOT EXISTS public."Accounts"
+CREATE TABLE IF NOT EXISTS public.accounts
 (
-    "accountNumber" bigint NOT NULL,
-    "clientID" bigint,
+    account_number bigint NOT NULL,
+    client_id bigint,
     balance bigint NOT NULL,
-    "limit" bigint NOT NULL DEFAULT 50000,
+    limitation bigint NOT NULL DEFAULT 50000,
     notifications boolean NOT NULL DEFAULT false,
     password character varying COLLATE pg_catalog."default" NOT NULL,
     token character varying COLLATE pg_catalog."default",
-    CONSTRAINT "Accounts_pkey" PRIMARY KEY ("accountNumber")
+    CONSTRAINT "Accounts_pkey" PRIMARY KEY (account_number)
 );
 
-CREATE TABLE IF NOT EXISTS public."Clients"
+CREATE TABLE IF NOT EXISTS public.clients
 (
     id serial NOT NULL,
     name character varying(50) COLLATE pg_catalog."default" NOT NULL,
@@ -25,88 +25,88 @@ CREATE TABLE IF NOT EXISTS public."Clients"
     CONSTRAINT "Clients_pkey" PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public."Loans"
+CREATE TABLE IF NOT EXISTS public.loans
 (
-    "ID" serial NOT NULL,
-    "AccountID" bigint NOT NULL,
-    "Amount" bigint NOT NULL,
-    "Left" bigint NOT NULL,
-    "Amount_of_Installment" bigint NOT NULL,
-    "Date_of_Start" date NOT NULL,
-    "Date_of_End" date,
-    CONSTRAINT "Loans_pkey" PRIMARY KEY ("ID")
+    id serial NOT NULL,
+    account_id bigint NOT NULL,
+    amount bigint NOT NULL,
+    left_amount bigint NOT NULL,
+    amount_of_installment bigint NOT NULL,
+    date_of_start date NOT NULL,
+    date_of_end date,
+    CONSTRAINT "Loans_pkey" PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public."Transactions"
+CREATE TABLE IF NOT EXISTS public.transactions
 (
-    "ID" serial NOT NULL,
+    id serial NOT NULL,
     status character varying COLLATE pg_catalog."default" NOT NULL,
-    "fromClientID" bigint NOT NULL,
-    "toClientID" bigint NOT NULL,
+    from_client_id bigint NOT NULL,
+    to_client_id bigint NOT NULL,
     date date NOT NULL,
-    "time" time without time zone,
-    CONSTRAINT "Transactions_pkey" PRIMARY KEY ("ID")
+    time time without time zone,
+    CONSTRAINT "Transactions_pkey" PRIMARY KEY (id)
 );
 
-ALTER TABLE IF EXISTS public."Accounts"
-    ADD CONSTRAINT "Accounts_clientID_fkey" FOREIGN KEY ("clientID")
-    REFERENCES public."Clients" (id) MATCH SIMPLE
+ALTER TABLE IF EXISTS public.accounts
+    ADD CONSTRAINT "Accounts_clientID_fkey" FOREIGN KEY (client_id)
+    REFERENCES public.clients (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
 
 
-ALTER TABLE IF EXISTS public."Accounts"
-    ADD CONSTRAINT "Accounts_clientID_fkey1" FOREIGN KEY ("clientID")
-    REFERENCES public."Clients" (id) MATCH SIMPLE
+ALTER TABLE IF EXISTS public.accounts
+    ADD CONSTRAINT "Accounts_clientID_fkey1" FOREIGN KEY (client_id)
+    REFERENCES public.clients (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
 
 
-ALTER TABLE IF EXISTS public."Loans"
-    ADD CONSTRAINT "Loans_AccountID_fkey" FOREIGN KEY ("AccountID")
-    REFERENCES public."Accounts" ("accountNumber") MATCH SIMPLE
+ALTER TABLE IF EXISTS public.loans
+    ADD CONSTRAINT "Loans_AccountID_fkey" FOREIGN KEY (account_id)
+    REFERENCES public.accounts (account_number) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
 
 
-ALTER TABLE IF EXISTS public."Loans"
-    ADD CONSTRAINT "Loans_AccountID_fkey1" FOREIGN KEY ("AccountID")
-    REFERENCES public."Accounts" ("accountNumber") MATCH SIMPLE
+ALTER TABLE IF EXISTS public.loans
+    ADD CONSTRAINT "Loans_AccountID_fkey1" FOREIGN KEY (account_id)
+    REFERENCES public.accounts (account_number) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
 
 
-ALTER TABLE IF EXISTS public."Transactions"
-    ADD CONSTRAINT "Transactions_fromClientID_fkey" FOREIGN KEY ("fromClientID")
-    REFERENCES public."Clients" (id) MATCH SIMPLE
+ALTER TABLE IF EXISTS public.transactions
+    ADD CONSTRAINT "Transactions_fromClientID_fkey" FOREIGN KEY (from_client_id)
+    REFERENCES public.clients (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
 
 
-ALTER TABLE IF EXISTS public."Transactions"
-    ADD CONSTRAINT "Transactions_fromClientID_fkey1" FOREIGN KEY ("fromClientID")
-    REFERENCES public."Clients" (id) MATCH SIMPLE
+ALTER TABLE IF EXISTS public.transactions
+    ADD CONSTRAINT "Transactions_fromClientID_fkey1" FOREIGN KEY (from_client_id)
+    REFERENCES public.clients (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
 
 
-ALTER TABLE IF EXISTS public."Transactions"
-    ADD CONSTRAINT "Transactions_toClientID_fkey" FOREIGN KEY ("toClientID")
-    REFERENCES public."Clients" (id) MATCH SIMPLE
+ALTER TABLE IF EXISTS public.transactions
+    ADD CONSTRAINT "Transactions_toClientID_fkey" FOREIGN KEY (to_client_id)
+    REFERENCES public.clients (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
 
 
-ALTER TABLE IF EXISTS public."Transactions"
-    ADD CONSTRAINT "Transactions_toClientID_fkey1" FOREIGN KEY ("toClientID")
-    REFERENCES public."Clients" (id) MATCH SIMPLE
+ALTER TABLE IF EXISTS public.transactions
+    ADD CONSTRAINT "Transactions_toClientID_fkey1" FOREIGN KEY (to_client_id)
+    REFERENCES public.clients (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;

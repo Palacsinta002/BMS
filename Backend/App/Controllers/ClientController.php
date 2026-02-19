@@ -23,6 +23,7 @@ class ClientController{
         Response::httpSuccess(200, ["Success" => "inserted row"]);
 
     }
+    
     public static function modify($body, $id){
         $user = Clients::show($id,false);
         if (!$user->rowCount()){

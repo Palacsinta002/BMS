@@ -30,14 +30,13 @@ use ApiResponse\Response;
 use Firebase\JWT\Key;
 class Token{
 
-    public static function makeToken($userid,$username, $expireTime = 3600){
+    public static function makeToken($id, $expireTime = 3600){
         Env::load();
         $payload = [
-            "sub"=> $username,
             "iss" => "http://localhost/5173",
             "iat" => time(),
             "exp" => time() + $expireTime,
-            "userID"=> $userid,
+            "id"=> $id,
         ];
         return JWT::encode($payload, $_ENV["JWT_KEY"], "HS256");
     }
@@ -48,11 +47,11 @@ class Token{
             }
             Env::load();
             $token = JWT::decode($token,new Key($_ENV["JWT_KEY"],"HS256"));
-            return $token->userID;
+            return $token->id;
             
         }
         catch(\Exception $e){
-            Response::httpError(400, 31);
+            Response::httpError(400, "please authorize yourself!");
         
         }
     }

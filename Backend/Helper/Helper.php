@@ -33,7 +33,7 @@ class Helper{
     public static function validateTheInput($input, $decode = null)
     {
         if (!isset($input)){
-            Response::httpError(400,21);
+            Response::httpError(400,"bad format");
         }
         if ($decode == "url"){
             $input = urldecode($input);
@@ -46,7 +46,7 @@ class Helper{
 
     public static function validateTheInputArray($array, $decode = null){
         if (!is_array($array)){
-            Response::httpError(400,21);
+            Response::httpError(400,"bad format");
         }
         foreach ($array as $key => $value) {
             $array[$key] = self::validateTheInput($value, $decode);

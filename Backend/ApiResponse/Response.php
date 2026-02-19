@@ -24,6 +24,8 @@
 
 namespace ApiResponse;
 
+use Exception;
+
 class Response{
     
     public static function httpError( $code, $message ){
@@ -35,10 +37,19 @@ class Response{
             ]);
             die();
         }
-        $lines = file("errorCodes.txt", FILE_IGNORE_NEW_LINES);
+       try {
+         $lines = file("errorCodes.txt", FILE_IGNORE_NEW_LINES);
+         if ($lines === false or !isset($lines[$message])) {
+            throw new Exception("invalid index");
+         }
         echo json_encode([
             "error" => substr($lines[$message],strpos($lines[$message],"!")+1)
         ]);
+       } catch (\Throwable $th) {
+        echo json_encode([
+            "error" => "no such error: $message"
+        ]);
+       }
         die();
     }
     public static function httpSuccess($code,$json ){

@@ -23,11 +23,17 @@
 require __DIR__ . '/vendor/autoload.php';
 use Router\Router;
 use ApiResponse\Response;
-
+use App\Controllers\AccountController;
 use App\Controllers\ClientController;
+
 
 Router::get("/api/personal", ClientController::class, "all", );
 Router::post("/api/personal",ClientController::class, "store");
+
+Router::post("/api/accounts/register", AccountController::class, "register");
+Router::post("/api/accounts/login", AccountController::class, "login");
+Router::put("/api/accounts/update", AccountController::class, "update");
+Router::delete("/api/accounts/destroy/{accountID}", AccountController::class, "destroy");
 
 Response::httpError(404, "Route not found");
 

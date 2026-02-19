@@ -35,6 +35,9 @@
 
 namespace Database\Queries;
 use Database\Connection;
+
+use function PHPSTORM_META\type;
+
 class Table {
     protected static $query;
     protected static $values = [];
@@ -64,8 +67,8 @@ class Table {
         return $this;
     }
 
-    protected function limit($value) {
-        self::$query .= " LIMIT $value ";
+    protected function limit($value, $offset = 0) {
+        self::$query .= " LIMIT $value  , OFFSET $offset";
         return $this;
     }
 
@@ -107,14 +110,14 @@ class Table {
     protected static function insert(string $table, array $field, array  $value, array $type) {
         $valueString = implode(", ", $field);
         $placeholder = implode(", ", array_fill(0, count($value), "?"));
-        $sql = "INSERT INTO \"$table\" ($valueString) VALUES ($placeholder)";
+        $sql = "INSERT INTO $table ($valueString) VALUES ($placeholder)";
         self::$values = $value;
         self::$types = $type;
         self::$query = $sql;
         return new self();
     }
     protected static function update(string $table, array $field, array $value, array $type,) {
-        $sql = "UPDATE \"$table\" 
+        $sql = "UPDATE $table
         SET " . implode(" = ? , ", $field) . " = ? " . " ";
         self::$query = $sql;
         self::$values = $value;
@@ -126,13 +129,14 @@ class Table {
         $conn = Connection::connect();
         self::fixingValues();
         //echo self::$query;
+        //print_r(self::$values);
         //die();
             $query = $conn->prepare(self::$query);
             if (substr_count(self::$query,"?") > 0 ){
                 $types = implode("", self::$types);
                 
             }
-            $query->execute([...self::$values]);
+            $query->execute(self::$values);
             if ($getresult == false) {
                 self::reset();
                 return;
@@ -146,7 +150,7 @@ class Table {
         
     }
     protected static function select(array $tables,array $fields){
-        self::$query = "SELECT " . implode(", ",$fields) . " FROM \"" . implode("\", \"",$tables) . "\" ";
+        self::$query = "SELECT " . implode(", ",$fields) . " FROM " . implode(", ",$tables) . " ";
         return new self();
     }
     protected static function delete($table){
@@ -160,6 +164,9 @@ class Table {
     }
     private static function fixingValues(){
         for ($i=0; $i < count(self::$values); $i++) { 
+            if (is_bool(self::$values[$i])){
+                self::$values[$i] = self::$values[$i] == true ?  1 :  0;
+            }
             if (self::$values[$i] == "NULL" || self::$values[$i] == "NOT NULL"){
                 array_splice(self::$values,$i,1);
                 array_splice(self::$types,$i,1);
