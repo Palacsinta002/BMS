@@ -149,11 +149,6 @@
 - No UPDATE or DELETE
 - Automatically store everything, this is the history of the bank
 
-#### AuditLogs
-
-| id  | user_id | action | entity | entity_id | timestamp | details |
-| --- | ------- | ------ | ------ | --------- | --------- | ------- |
-|     |         |        |        |           |           |         |
 
 #### LedgerEntries
 
